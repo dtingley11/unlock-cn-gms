@@ -4,6 +4,10 @@ By this restriction, you can not enable `Google Location History` and the `Googl
 
 This module removes the restriction by replacing these configuration files.
 
+With Mountify enabled, custom-partition replacements use its overlay to avoid
+mount conflicts. Reinstall this module after enabling Mountify, then reboot.
+If Mountify uses manual module selection, include Unlock CN GMS.
+
 Supported file locations:
 - `/system/etc/permissions/services.cn.google.xml`
 - `/system/etc/permissions/com.oppo.features.cn_google.xml`

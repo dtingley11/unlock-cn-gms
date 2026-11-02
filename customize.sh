@@ -15,11 +15,35 @@ FILES="\
 
 found=false
 need_bind_mount=false
+mountify=false
+mountify_dir=/data/adb/modules/mountify
+if [ -f "$mountify_dir/metamount.sh" ] &&
+    [ ! -e "$mountify_dir/disable" ] && [ ! -e "$mountify_dir/remove" ]; then
+    mountify=true
+fi
+
+mountify_partition() {
+    case "$1" in
+        /my_bigball/*|/my_product/*|/my_heytap/*|/odm/*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
 
 for origin in $FILES; do
     [ ! -e "$origin" ] && continue
     found=true
 
+    if $mountify && mountify_partition "$origin"; then
+        target="$MODPATH/system$origin"
+        case "$origin" in
+            /my_heytap/*)
+                if [ -e /my_heytap/etc/permissions/my_heytap_cn_features.xml ]; then
+                    heytap_cn_features_orgin=/my_heytap/etc/permissions/my_heytap_cn_features.xml
+                    heytap_cn_features_target="$MODPATH/system$heytap_cn_features_orgin"
+                fi
+                ;;
+        esac
+    else
 	case "$origin" in
 		*my_bigball*)
 			target=$MODPATH/oplus_google_cn_gms_features.xml
@@ -53,6 +77,7 @@ for origin in $FILES; do
 			target=$MODPATH/system$origin
 			;;
 	esac
+    fi
 
     mkdir -p $(dirname $target)
     cp -f $origin $target
