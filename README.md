@@ -4,9 +4,12 @@ By this restriction, you can not enable `Google Location History` and the `Googl
 
 This module removes the restriction by replacing these configuration files.
 
-With Mountify enabled, custom-partition replacements use its overlay to avoid
-mount conflicts. Reinstall this module after enabling Mountify, then reboot.
-If Mountify uses manual module selection, include Unlock CN GMS.
+[Mountify](https://github.com/backslashxx/mountify) and other OverlayFS metamodules
+can hide early bind mounts. This fork integrates custom-partition replacements
+with Mountify's overlay; other metamodules are not automatically detected.
+
+Reinstall this module after enabling Mountify, then reboot. Include Unlock CN GMS
+when using manual module selection.
 
 Supported file locations:
 - `/system/etc/permissions/services.cn.google.xml`
